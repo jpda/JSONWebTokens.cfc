@@ -8,7 +8,7 @@
         accesstokenendpoint = "https://login.microsoftonline.com/jpda.onmicrosoft.com/oauth2/v2.0/token" <!--- azure ad oauth2 token endpoint --->
         redirecturi = "http://localhost:8500/auth.cfm">
 
-    <cfset jwt = createObject("component","jwt-lib/JsonWebTokens")> 
+    <cfset jwt = createObject("component","lib/JsonWebTokens")> 
     <!--- azure ad kid BB8CeFVqyaGrGNuehJIiL4dfjzw, see https://login.microsoftonline.com/common/disovery/v2.0/keys --->
     <cfset pubkey = "
     MIIDBTCCAe2gAwIBAgIQbiJkXaenk61AKixVocnLRTANBgkqhkiG9w0BAQsFADAt
