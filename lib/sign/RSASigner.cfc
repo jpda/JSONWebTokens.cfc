@@ -23,15 +23,17 @@ component
 	public any function init(
 		required string algorithm,
 		required string publicKey,
-		required string privateKey
+		string privateKey
 		) {
 
 		setAlgorithm( algorithm );
 		setPublicKeyFromText( publicKey );
+		if(privateKey == "") {
+			return (this);
+		}
+
 		setPrivateKeyFromText( privateKey );
-
 		return( this );
-
 	}
 
 
@@ -114,14 +116,14 @@ component
 
 		testKey( newPublicKeyText );
 
-		var publicKeySpec = createObject( "java", "java.security.spec.X509EncodedKeySpec" ).init(
-			binaryDecode( stripKeyDelimiters( newPublicKeyText ), "base64" )
-		);
+		var binaryPublicKey = binaryDecode( stripKeyDelimiters( newPublicKeyText ), "base64" );
+		var bis = createObject("java", "java.io.ByteArrayInputStream").init(binaryPublicKey);
 
-		publicKey = createObject( "java", "java.security.KeyFactory" )
-			.getInstance( javaCast( "string", "RSA" ) )
-			.generatePublic( publicKeySpec )
-		;
+		var certificate = createObject("java", "java.security.cert.CertificateFactory")
+			.getInstance( javaCast( "string", "X509" ) )
+			.generateCertificate(bis);
+
+		publicKey = certificate.getPublicKey();
 
 		return( this );
 
@@ -139,6 +141,7 @@ component
 	public any function setPrivateKeyFromText( required string newPrivateKeyText ) {
 
 		testKey( newPrivateKeyText );
+		if(newPrivateKeyText == ""){ return (this);}
 
 		var privateKeySpec = createObject( "java", "java.security.spec.PKCS8EncodedKeySpec" ).init(
 			binaryDecode( stripKeyDelimiters( newPrivateKeyText ), "base64" )

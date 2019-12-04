@@ -1,4 +1,12 @@
 
+# jsonwebtokens.cfc
+
+Modified to add support for more cert formats and a signature verification mode that doesn't require a private key.
+
+Sample added using `cfoauth`
+
+---
+
 # JSONWebTokens.cfc - A ColdFusion Gateway For JSON Web Tokens
 
 by [Ben Nadel][1] (on [Google+][2])
